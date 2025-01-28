@@ -1,6 +1,6 @@
 {
   "scriptFile" : "../CST8917-lab1-java-1.0-SNAPSHOT.jar",
-  "entryPoint" : "com.function.HelloWorld.hello",
+  "entryPoint" : "LabOneAPI.hello",
   "bindings" : [ {
     "type" : "httpTrigger",
     "direction" : "in",

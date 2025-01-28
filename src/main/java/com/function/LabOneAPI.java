@@ -1,5 +1,3 @@
-package com.function;
-
 import com.microsoft.azure.functions.*;
 import com.microsoft.azure.functions.annotation.*;
 import io.jsonwebtoken.Jwts;
