@@ -1,0 +1,8 @@
+{
+    "IsEncrypted": false,
+    "Values": {
+        "FUNCTIONS_WORKER_RUNTIME": "java",
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "ServiceBusConnection": "Endpoint=sb://busfor8917labone.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=YOUR_ACTUAL_KEY"
+    }
+}
