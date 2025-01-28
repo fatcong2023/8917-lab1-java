@@ -1,11 +1,11 @@
 {
   "scriptFile" : "../CST8917-lab1-java-1.0-SNAPSHOT.jar",
-  "entryPoint" : "com.function.HelloWorld.hello",
+  "entryPoint" : "com.function.HelloWorld.login",
   "bindings" : [ {
     "type" : "httpTrigger",
     "direction" : "in",
     "name" : "req",
-    "methods" : [ "GET" ],
+    "methods" : [ "POST" ],
     "authLevel" : "ANONYMOUS"
   }, {
     "type" : "http",
