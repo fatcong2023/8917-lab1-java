@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Azure Functions with HTTP Trigger.
  */
-public class HelloWorld {
+public class LabOneAPI {
     private static final Key JWT_SECRET = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
 
