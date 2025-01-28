@@ -2,14 +2,10 @@
   "scriptFile" : "../CST8917-lab1-java-1.0-SNAPSHOT.jar",
   "entryPoint" : "LabOneAPI.processOrder",
   "bindings" : [ {
-    "type" : "httpTrigger",
+    "type" : "serviceBusTrigger",
     "direction" : "in",
-    "name" : "req",
-    "methods" : [ "POST" ],
-    "authLevel" : "ANONYMOUS"
-  }, {
-    "type" : "http",
-    "direction" : "out",
-    "name" : "$return"
+    "name" : "message",
+    "queueName" : "lab1queue",
+    "connection" : "ServiceBusConnection"
   } ]
 }

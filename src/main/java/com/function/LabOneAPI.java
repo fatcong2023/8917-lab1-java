@@ -79,36 +79,27 @@ public class LabOneAPI {
     }
 
     /**
-     * Order processing endpoint that logs items being processed
+     * Order processing endpoint that reads messages from Service Bus Queue
      */
     @FunctionName("process-order")
-    public HttpResponseMessage processOrder(
-            @HttpTrigger(
-                name = "req",
-                methods = {HttpMethod.POST},
-                authLevel = AuthorizationLevel.ANONYMOUS)
-                HttpRequestMessage<OrderRequest> request,
+    public void processOrder(
+            @ServiceBusQueueTrigger(
+                name = "message",
+                queueName = "lab1queue",
+                connection = "ServiceBusConnection")
+                String message,
             final ExecutionContext context) {
 
-        OrderRequest orderRequest = request.getBody();
+        context.getLogger().info("Processing message from Service Bus: " + message);
         
-        if (orderRequest == null || orderRequest.getOrderId() == null || orderRequest.getItems() == null) {
-            return request.createResponseBuilder(HttpStatus.BAD_REQUEST)
-                    .body("Please provide orderId and items")
-                    .build();
+        try {
+            // Log the message processing
+            String processMessage = String.format("Order processing started for message: %s", message);
+            context.getLogger().info(processMessage);
+            
+        } catch (Exception e) {
+            context.getLogger().severe("Error processing message: " + e.getMessage());
         }
-
-        StringBuilder response = new StringBuilder();
-        for (String item : orderRequest.getItems()) {
-            String message = String.format("%s order processing started", item);
-            context.getLogger().info(message);
-            response.append(message).append("\n");
-        }
-
-        return request.createResponseBuilder(HttpStatus.OK)
-                .header("Content-Type", "text/plain")
-                .body(response.toString())
-                .build();
     }
 
     /**
