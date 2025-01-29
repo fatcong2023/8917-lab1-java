@@ -10,6 +10,8 @@ import java.util.Random;
 import java.util.regex.Pattern;
 import java.util.List;
 
+import com.microsoft.azure.functions.*;
+
 /**
  * Azure Functions with HTTP Trigger.
  */
@@ -107,14 +109,14 @@ public class LabOneAPI {
 
     /**
      * Daily sales report endpoint that generates random sales data
+     * Runs every day at midnight (0 0 0 * * *)
      */
     @FunctionName("daily-sales-report")
-    public HttpResponseMessage dailySalesReport(
-            @HttpTrigger(
-                name = "req",
-                methods = {HttpMethod.GET},
-                authLevel = AuthorizationLevel.ANONYMOUS)
-                HttpRequestMessage<Void> request,
+    public void dailySalesReport(
+            @TimerTrigger(
+                name = "dailySalesTrigger",
+                schedule = "*/20 * * * * *")    // Runs at midnight every day
+                String timerInfo,
             final ExecutionContext context) {
 
         Random random = new Random();
@@ -130,10 +132,8 @@ public class LabOneAPI {
             getSalesPerformanceMessage(salesCount)
         );
 
-        return request.createResponseBuilder(HttpStatus.OK)
-                .header("Content-Type", "text/plain")
-                .body(report)
-                .build();
+        // Log the report instead of returning it
+        context.getLogger().info(report);
     }
 
     private String getSalesPerformanceMessage(int sales) {
