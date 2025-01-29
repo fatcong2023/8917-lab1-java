@@ -20,26 +20,6 @@ public class LabOneAPI {
     private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
 
     /**
-     * Hello World endpoint that returns a simple greeting
-     */
-    @FunctionName("hello")
-    public HttpResponseMessage hello(
-            @HttpTrigger(
-                name = "req",
-                methods = {HttpMethod.GET},
-                authLevel = AuthorizationLevel.ANONYMOUS)
-                HttpRequestMessage<Void> request,
-            final ExecutionContext context) {
-        
-        context.getLogger().info("Java HTTP trigger function processed a request.");
-
-        return request.createResponseBuilder(HttpStatus.OK)
-                .header("Content-Type", "text/plain")
-                .body("Hello World")
-                .build();
-    }
-
-    /**
      * Login endpoint that validates email and generates JWT token
      */
     @FunctionName("login")
@@ -51,8 +31,6 @@ public class LabOneAPI {
                 HttpRequestMessage<LoginRequest> request,
             final ExecutionContext context) {
 
-        context.getLogger().info("Processing login request");
-        
         LoginRequest loginRequest = request.getBody();
         
         if (loginRequest == null || loginRequest.getUsername() == null || loginRequest.getPassword() == null) {
@@ -93,17 +71,11 @@ public class LabOneAPI {
             final ExecutionContext context) {
 
         try {
-            context.getLogger().info("Starting Service Bus trigger processing");
-            context.getLogger().info("Processing message from Service Bus: " + message);
-            
-            // Log the message processing
             String processMessage = String.format("Order processing started for message: %s", message);
             context.getLogger().info(processMessage);
-            
         } catch (Exception e) {
             context.getLogger().severe("Error in processOrder: " + e.getMessage());
-            context.getLogger().severe("Stack trace: " + e.getStackTrace().toString());
-            throw e; // Rethrow to ensure Azure knows about the failure
+            throw e;
         }
     }
 
@@ -115,7 +87,7 @@ public class LabOneAPI {
     public void dailySalesReport(
             @TimerTrigger(
                 name = "dailySalesTrigger",
-                schedule = "*/20 * * * * *")    // Runs at midnight every day
+                schedule = "0 0 0 * * *")    // Runs at midnight every day
                 String timerInfo,
             final ExecutionContext context) {
 
