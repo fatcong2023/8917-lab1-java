@@ -90,15 +90,18 @@ public class LabOneAPI {
                 String message,
             final ExecutionContext context) {
 
-        context.getLogger().info("Processing message from Service Bus: " + message);
-        
         try {
+            context.getLogger().info("Starting Service Bus trigger processing");
+            context.getLogger().info("Processing message from Service Bus: " + message);
+            
             // Log the message processing
             String processMessage = String.format("Order processing started for message: %s", message);
             context.getLogger().info(processMessage);
             
         } catch (Exception e) {
-            context.getLogger().severe("Error processing message: " + e.getMessage());
+            context.getLogger().severe("Error in processOrder: " + e.getMessage());
+            context.getLogger().severe("Stack trace: " + e.getStackTrace().toString());
+            throw e; // Rethrow to ensure Azure knows about the failure
         }
     }
 
